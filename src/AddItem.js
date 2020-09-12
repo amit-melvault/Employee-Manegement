@@ -15,7 +15,7 @@ import {
           salary:props.isEdit ? props.editItemData.salary : '',
           age:props.isEdit ? props.editItemData.age : '',
           exp:props.isEdit ? props.editItemData.exp : '',
-          id: props.isEdit ? props.editItemData.id : null
+          employeeId: props.isEdit ? props.editItemData.employeeId : null
       }
   }
   handleChange(e){
@@ -25,22 +25,12 @@ import {
   }
   handleSubmit(e){
       e.preventDefault();
-      this.props.dispatch({
-        type:"ADD_ITEM",
-        data:{
-          name:this.state.Name,
-          salary:this.state.salary,
-          age:this.state.age,
-          exp:this.state.exp,
-          id: this.state.id
-        }
-      })
       let data = {
           name:this.state.Name,
           salary:this.state.salary,
           age:this.state.age,
           exp:this.state.exp,
-          id: this.state.id
+          employeeId: this.state.employeeId
       }
       
       this.props.handleItemData(data);
@@ -60,32 +50,38 @@ import {
                  <Modal.Title>Add some data</Modal.Title>
                </Modal.Header>
                <Modal.Body>
-                    <form onSubmit={this.handleSubmit} className="form_style">
+                    <form onSubmit={this.handleSubmit}>
                         <label>Name: </label><br/>
-                        <input type="text" 
+                        <input type="text"
+                            className="form-control" 
                             onChange={this.handleChange}
                             name="Name"
                             value={this.state.Name}
                         /><br/>
                         <label>Salary:</label><br/>
                         <input type="text" 
+                            className="form-control"
                             onChange={this.handleChange}
                             name="salary"
                             value={this.state.salary}
                         /><br/>
                          <label>Age :  </label><br/>
                         <input type="text" 
+                            className="form-control"
                             onChange={this.handleChange}
                             name="age"
                             value={this.state.age}
                         /><br/>
                         <label>Exp : </label><br/>
                         <input type="text" 
+                           className="form-control"
                             onChange={this.handleChange}
                             name="exp"
                             value={this.state.exp}
                         /><br/><br/>
-                      <button >Update</button>
+                      <button 
+                      className="btn btn-primary"
+                      >Update</button>
                     </form>
                </Modal.Body>
             </Modal>

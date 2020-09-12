@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux'
 import AddItem from '../AddItem';
 import LandingPage from "../Components/GoogleMap1";
-import * as employeeActions from '../Redux/action/getEmployee'
+import * as employeeActions from '../Redux/action/getEmployeeAction'
 import { bindActionCreators } from 'redux'
 
 
@@ -22,7 +22,7 @@ class EmployeeList extends React.Component{
   } 
  
   componentDidMount(){
-    this.props.getEmployee();
+    this.props.fetchEmployee();
   }
  
   onAddItemClick = () => {
@@ -49,35 +49,18 @@ class EmployeeList extends React.Component{
 
 
   handleDelete = (data) =>{
-    const EmpData = this.props.employees.filter(i=>i.id !==data.id)
-    this.props.deleteEmployee(EmpData)
+    this.props.deleteEmployeeDetails(data.employeeId)
   }
 
   
   handleAddItemData = (data) => {
     
-    let EmpData = [...this.props.employees];
-    data.id = EmpData.length + 1;
-    EmpData.push(data);
-    this.props.addEmployee(EmpData)
+    this.props.addEmployeeData(data)
   }
 
   handleEditItemData = (data, isEdit) => {
-    // let EmpData = [...this.state.EmpData];
-    // EmpData = EmpData.filter(item => data.id !== item.id);
-    
-    // EmpData.push(data);
-    // this.setState({
-    //   EmpData
-    // },()=>{
-    //   this.state.EmpData.sort((a, b) => a.id - b.id);
-    // })
-
-    let EmpData = [...this.props.employees];
-    EmpData = EmpData.filter(item => data.id !== item.id);
-    EmpData.push(data);
-    this.props.editEmployee(EmpData);    
-    
+        this.props.updateEmployee(data);    
+        
   }
 
   handleModalClose = (isshowModal) => {
@@ -106,12 +89,11 @@ class EmployeeList extends React.Component{
 
   render(){
     const {isEdit} = this.state
-    console.log(this.props)
     return (
       <div className="container">
-         <div className="row" style={{marginTop:"20px"}}>
+         <div className="row" style={{marginTop:"100Px"}} >
            <div className="col-sm-6">
-              <button className="btn-primary"
+              <button className="btn btn-primary"
               onClick={this.onAddItemClick}>
                 Add Field</button>
                 {this.state.showModal ? (<AddItem 
@@ -124,52 +106,54 @@ class EmployeeList extends React.Component{
               />) : null}
            </div>
            <div className="col-sm-6 searchbar">
-                    <input type="text" placeholder="serch by name" className="search-style"
+                    <input type="text" placeholder="serch by name" className="form-control"
                         onChange={this.handleSearch} autoComplete="off"
                         name="search"
                         value={this.state.search}
                       />
-                      <button onClick={this.handleClickSearch} className="btn-primary">
+                      <button onClick={this.handleClickSearch} className="btn btn-primary">
                         <i className="fas fa-search"></i>
                       </button>
            </div>
          </div>  
           <div className="row">
-             <div className="col-sm-9">
-                <table className="table">
-                    <thead>
+             <div className="col-sm-12">
+                <table className="table table-bordered table-hover">
+                    <thead className="thead-dark">
                     <tr>
                         <th scope="col">
                         <input type="checkbox"
                             onChange={this.handleChnageSelect}
                         />
                         </th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Salary</th>
-                        <th scope="col">Age</th>
-                        <th scope="col">Experiance</th>
-                        <th scope="col">Action</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Salary</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Experiance</th>
+                            <th scope="col" style={{textAlign:"center"}}>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                         {
-                            this.props.employees && this.props.employees.map((item)=>{
+                            this.props.employees && this.props.employees.map((item,i)=>{
                             return(
-                                <tr key={item.id}>
+                                <tr key={i}>
                                     <td>
-                                    <input type="checkbox"
-                                        onChange={this.handleChnageSelect}
-                                        />
-                                    </td>
-                                    <td>{item.name}</td>
-                                    <td>{item.salary}</td>
-                                    <td>{item.age}</td>
-                                    <td>{item.exp}</td>
+                                        <input type="checkbox"
+                                            onChange={this.handleChnageSelect}
+                                            />
+                                        </td>
+                                        <td>{item.name}</td>
+                                        <td>{item.salary}</td>
+                                        <td>{item.age}</td>
+                                        <td>{item.exp}</td>
                                     <td>
-                                        <button onClick={()=>this.handleEdit(item)} className="btn-secondary">
-                                        <i className="fas fa-edit"></i></button>
-                                        <button onClick={()=>this.handleDelete(item)} className="btn-danger">
-                                        <i class="fas fa-trash-alt"></i></button>
+                                        <center>
+                                            <button onClick={()=>this.handleEdit(item)} className="btn btn-secondary">
+                                            <i className="fas fa-edit"></i></button>
+                                            <button onClick={()=>this.handleDelete(item)} className="btn btn-danger ml-5">
+                                            <i className="fas fa-trash-alt"></i></button>
+                                        </center>
                                     </td>
                                 </tr>
                                 )
@@ -188,7 +172,7 @@ const mapStateToProps = state => ({
   employees: state.employeeList && state.employeeList.employees
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
       ...employeeActions,
   }, dispatch);
