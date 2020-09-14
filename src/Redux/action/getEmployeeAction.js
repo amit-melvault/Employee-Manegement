@@ -83,7 +83,7 @@ export const updateEmployee = (data) =>{
 
 export const deleteEmployeeDetails = (employeeId) =>{
     return (dispatch)=>{
-       return axios.get(API_BASE_URL+`employee/${employeeId}`)
+       return axios.delete(API_BASE_URL+`employee/${employeeId}`)
        .then(response=>{
            console.log(response)
            dispatch(deleteEmployee(employeeId))

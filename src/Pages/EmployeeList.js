@@ -4,7 +4,10 @@ import AddItem from '../AddItem';
 import LandingPage from "../Components/GoogleMap1";
 import * as employeeActions from '../Redux/action/getEmployeeAction'
 import { bindActionCreators } from 'redux'
-
+$(document).ready(function () {
+  $('#dtBasicExample').DataTable();
+  $('.dataTables_length').addClass('bs-select');
+});
 
 class EmployeeList extends React.Component{
   constructor(props){
@@ -98,6 +101,7 @@ class EmployeeList extends React.Component{
                 Add Field</button>
                 {this.state.showModal ? (<AddItem 
                 handleItemData ={isEdit ? this.handleEditItemData : this.handleAddItemData}
+                title ={isEdit ? "Edit & Update data" : "Add more data"}
                 editItemData={this.state.editItemData} 
                 isEdit={isEdit}
                 showModal={this.state.showModal}
@@ -118,7 +122,7 @@ class EmployeeList extends React.Component{
          </div>  
           <div className="row">
              <div className="col-sm-12">
-                <table className="table table-bordered table-hover">
+                <table className="table table-bordered table-hover table table-striped table-bordered table-sm" id="dtBasicExample" cellspacing="0" width="100%">
                     <thead className="thead-dark">
                     <tr>
                         <th scope="col">

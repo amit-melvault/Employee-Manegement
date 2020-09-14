@@ -47,7 +47,7 @@ import {
          <div>
             <Modal show={this.props.showModal} onHide={this.handleClose}>
                <Modal.Header closeButton>
-                 <Modal.Title>Add some data</Modal.Title>
+                 <Modal.Title>{this.props.title}</Modal.Title>
                </Modal.Header>
                <Modal.Body>
                     <form onSubmit={this.handleSubmit}>
